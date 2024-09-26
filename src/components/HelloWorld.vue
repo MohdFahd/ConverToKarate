@@ -5,23 +5,24 @@ import axios from "axios"; // Import axios to make API requests
 // Data references for input and output
 const curlCommand = ref(""); // The cURL command input
 const karateTest = ref(""); // The Karate test output
+const isloading = ref(false); // The Karate test output
 
 // Function to handle the conversion when the "Convert" button is clicked
 const convertCurlToKarate = async () => {
   console.log(curlCommand.value); // Check what input is being passed
-
+  isloading.value = true;
   try {
     // Making a POST request to the API
     const response = await axios.post(
-      "https://api.qa.fastn.ai/api/v1/karate",
+      "https://api.qa.fastn.ai/api/v1/ConvertToKarate",
       {
-        input: { productId: curlCommand.value }, // Pass the cURL command as input
+        input: { crulCommand: curlCommand.value }, // Pass the cURL command as input
       },
       {
         headers: {
-          "x-fastn-api-key": "59c8001c-598a-41d4-b8e8-f4fb47ae4268", // API Key
+          "x-fastn-api-key": "2e53d60c-0a0a-485d-a8e0-171da7b75e7e", // API Key
           "Content-Type": "application/json",
-          "x-fastn-space-id": "3a58be5d-08a0-4cff-becf-1407c0f31abf",
+          "x-fastn-space-id": "1bace0da-fcc9-4889-ac1c-d5467703371d",
           "x-fastn-space-tenantid": "",
           stage: "LIVE",
         },
@@ -30,6 +31,7 @@ const convertCurlToKarate = async () => {
 
     // Set the converted Karate test result in the second textarea
     karateTest.value = response.data.karateTest;
+    isloading.value = false;
   } catch (error) {
     console.error("Error converting cURL to Karate test:", error);
     karateTest.value =
@@ -58,5 +60,7 @@ const convertCurlToKarate = async () => {
       ></textarea>
     </div>
   </div>
-  <button @click="convertCurlToKarate">Convert</button>
+  <button @click="convertCurlToKarate" :disabled="isloading">
+    {{ isloading ? "Converting..." : "Convert" }}
+  </button>
 </template>

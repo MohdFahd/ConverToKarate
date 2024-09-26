@@ -38,8 +38,11 @@ h1 {
 textarea {
   background-color: #ffffff;
    border-radius: 8px;
-  border: 2px solid black;
-  color: #1a1a1a;
+  border: 1px solid gray;
+  color:#1a1a1a;
+  font-weight: 500;
+  padding: 20px;  
+  font-family: 'Courier New', Courier, monospace;
 }
 button {
   border-radius: 8px;
